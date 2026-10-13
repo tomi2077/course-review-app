@@ -37,6 +37,21 @@ def api_count():
 def api_top():
     return [c for c in courses if c["rating"] > 4.0]
 
+@app.route("/course/<name>")
+def course_detail(name):
+    for course in courses:
+        if course["name"] == name:
+            return jsonify(course)
+    return jsonify({"error": "Course not found"}), 404
+
+@app.route("/course/<name>/rating")
+def course_rating(name):
+    for course in courses:
+        if course["name"] == name:
+            return jsonify({"name":course["name"], "rating":course["rating"]})
+            
+    return jsonify({"error": "Course not found"}), 404
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
     
