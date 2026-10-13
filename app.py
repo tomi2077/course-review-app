@@ -31,15 +31,11 @@ def course_full_list():
 
 @app.route("/api/courses/count")
 def api_count():
-    
-    course_count = {}
+    return {"count": len(courses)}
 
-    for course in courses:
-        name = course["name"]
-        course_count[name] = course_count.get(name, 0) + 1
-
-    return jsonify(course_count)
-
+@app.route("/api/courses/top")
+def api_top():
+    return [c for c in courses if c["rating"] > 4.0]
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
