@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 courses = [
     {"name": "python", "title": "Python Fundamentals", "rating": 4.5, "students": 1200},
@@ -51,6 +51,20 @@ def course_rating(name):
             return jsonify({"name":course["name"], "rating":course["rating"]})
             
     return jsonify({"error": "Course not found"}), 404
+
+@app.route("/api/courses/search")
+def search_courses():
+    min_rating = request.args.get("min_rating", type=float)
+    max_students = request.args.get("max_students", type=int)
+    q = request.args.get("q", type=str)
+    results = courses
+    if min_rating is not None:
+        results = [c for c in results if c["rating"] >= min_rating]
+    if max_students is not None:
+        results = [c for c in results if c["students"] <= max_students]
+    if q is not None:
+        results = [c for c in results if q.lower() in c["title"].lower()]
+    return jsonify(results)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
