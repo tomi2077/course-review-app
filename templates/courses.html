@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Courses</title>
+    </head>
+    <body> 
+        <h1>Courses</h1>
+    <ul>
+        {% for course in courses %}
+           <li>
+            {{ course.title }}   |
+            {{ course.rating }}  |
+            {{ course.students}} |
+            {% if course.rating > 4.4 %} 
+                ⭐ Top rated
+            {% endif %}
+           </li> 
+           {% endfor %}
+        </ul>
+    </body>
+</html>

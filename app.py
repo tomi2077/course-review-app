@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 
 courses = [
     {"name": "python", "title": "Python Fundamentals", "rating": 4.5, "students": 1200},
@@ -17,13 +17,17 @@ def home():
 def about():
     return "You are Welcome"
 
-@app.route("/courses")
+# @app.route("/courses")
+# def course_list():
+#     return """<ul>
+#                 <li> Mathematics </li>
+#                 <li> Physics </li>
+#                 <li> Structures</li>
+#             </ul>"""
+            
+@app.route ("/courses")
 def course_list():
-    return """<ul>
-                <li> Mathematics </li>
-                <li> Physics </li>
-                <li> Structures</li>
-            </ul>"""
+    return render_template("courses.html", courses=courses)
 
 @app.route("/api/courses")
 def course_full_list():
