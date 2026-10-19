@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Courses</title>
-    </head>
-    <body> 
-        <h1>Courses</h1>
+{% extends "base.html" %}
+{% block title %}All Courses{% endblock %}
+{% block content %}
+    <h1>Courses</h1>
     <ul>
         {% for course in courses %}
            <li>
@@ -16,6 +13,5 @@
             {% endif %}
            </li> 
            {% endfor %}
-        </ul>
-    </body>
-</html>
+    </ul>
+{% endblock %}

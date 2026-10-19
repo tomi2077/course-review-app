@@ -11,7 +11,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "<h1>Hello, welcome to the course</h1>"
+    # return "<h1>Hello, welcome to the course</h1>"
+    return render_template("home.html")
 
 @app.route("/about")
 def about():
@@ -47,6 +48,13 @@ def course_detail(name):
         if course["name"] == name:
             return jsonify(course)
     return jsonify({"error": "Course not found"}), 404
+
+@app.route("/course-page/<name>")
+def course_page(name):
+    for course in courses:
+        if course["name"] == name:
+            return render_template("course.html", course=course)
+    return render_template("404.html"), 404
 
 @app.route("/course/<name>/rating")
 def course_rating(name):
