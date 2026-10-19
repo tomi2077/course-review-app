@@ -80,9 +80,25 @@ def search_courses():
 
 @app.route("/tip")
 def learning_tip():
-    response = requests.get("https://official-joke-api.appspot.com/random_joke")
-    data = response.json()
-    return render_template("tip.html", tip=data)
+    try:
+        response = requests.get("https://official-joke-api.appspot.com/random_joke",timeout=5)
+        response.raise_for_status()
+        data = response.json()
+        return render_template("tip.html", tip=data)
+    except (requests.exceptions.RequestException, ValueError) as e:
+        print(f"Joke API failed: {e}")
+        return render_template("error.html"), 503
+
+
+@app.errorhandler(404)
+def not_found(e):
+    if request.path.startswith("/api/"):
+        return jsonify({"error": "Not found"}), 404
+    return render_template("404.html"), 404
+
+@app.errorhandler(500)
+def server_error(e):
+    return render_template("500.html"), 500
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
