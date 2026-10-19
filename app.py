@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, render_template
-
+import requests
 courses = [
     {"name": "python", "title": "Python Fundamentals", "rating": 4.5, "students": 1200},
     {"name": "flask", "title": "Flask Web Development", "rating": 4.2, "students": 800},
@@ -77,6 +77,12 @@ def search_courses():
     if q is not None:
         results = [c for c in results if q.lower() in c["title"].lower()]
     return jsonify(results)
+
+@app.route("/tip")
+def learning_tip():
+    response = requests.get("https://official-joke-api.appspot.com/random_joke")
+    data = response.json()
+    return render_template("tip.html", tip=data)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

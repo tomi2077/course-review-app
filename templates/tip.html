@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Jokes{% endblock %}
+{% block content %}
+    <h1>Here's a Jokes</h1>
+    <p>Content: {{ tip.setup }}</p>
+    <p>Punchline: {{ tip.punchline}}</p>
+    <a href="/tip">Another one</a>
+{% endblock %}
