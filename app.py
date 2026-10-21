@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, redirect, url_for
 import requests
 courses = [
     {"name": "python", "title": "Python Fundamentals", "rating": 4.5, "students": 1200},
@@ -99,6 +99,21 @@ def not_found(e):
 @app.errorhandler(500)
 def server_error(e):
     return render_template("500.html"), 500
+
+@app.route("/add-review", methods=["GET", "POST"])
+def add_review():
+    if request.method == "POST":
+        name = request.form.get("course_name")
+        rating = request.form.get("rating", type=float)
+
+        for course in courses:
+            if course["name"] == name:
+                course["rating"] = rating
+                return redirect(url_for("course_list"))
+
+        return render_template("add_review.html", error="No course with that name"), 404
+
+    return render_template("add_review.html")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
