@@ -2,8 +2,24 @@
 {% block title %}{{ course.title }}{% endblock %}
 {% block content %}
     <h1>{{ course.title }}</h1>
-    <p>Rating: {{ course.rating }}</p>
     <p>Students: {{ course.students }}</p>
+    
+    {% if av_rating %}
+        <p>Rating: {{ av_rating }}</p>
+    {% else %}
+        <p>No rating yet</p>
+    {% endif %}
+
+    <h2>Reviews</h2>
+    {% if reviews %}
+        <ul>
+            {% for review in reviews %}
+                <li>{{ review.rating }} — {{ review.comment }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No reviews yet</p>
+    {% endif %}
     <a href="/courses">Back to all courses</a>
 
 {% endblock %}

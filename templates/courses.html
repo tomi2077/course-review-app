@@ -6,9 +6,9 @@
         {% for course in courses %}
            <li>
             {{ course.title }}   |
-            {{ course.rating }}  |
+            {% if course.rating %}{{ course.rating }}{% else %}No rating{% endif %} |
             {{ course.students}} |
-            {% if course.rating > 4.4 %} 
+            {% if course.rating and course.rating > 4.4 %}
                 ⭐ Top rated
             {% endif %}
            </li> 
